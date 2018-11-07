@@ -1,0 +1,40 @@
+version: "3"
+services:
+  cassandra:
+    build: ./cassandra
+    container_name: cassandra
+
+  redis:
+    image: redis
+    container_name: redis
+
+  haproxy:
+    build: ./haproxy
+    container_name: haproxy
+    ports:
+      - "3000:80"
+    depends_on:
+      - srv1
+      - srv2
+      - srv3
+
+  srv1:
+    build: ./api
+    container_name: srv1
+    depends_on:
+      - cassandra
+      - redis
+
+  srv2:
+    build: ./api
+    container_name: srv2
+    depends_on:
+      - cassandra
+      - redis
+
+  srv3:
+    build: ./api
+    container_name: srv3
+    depends_on:
+      - cassandra
+      - redis
