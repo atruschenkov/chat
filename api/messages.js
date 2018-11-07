@@ -24,14 +24,16 @@ function create(req, res) {
 		return;
 	}
 
-	if (typeof timeout != 'number') {
-		res.status(HttpStatus.BAD_REQUEST).json({error: 'timeout must be a number'});
-		return;
-	}
+	if (timeout != undefined) {
+		if (typeof timeout != 'number') {
+			res.status(HttpStatus.BAD_REQUEST).json({error: 'timeout must be a number'});
+			return;
+		}
 
-	if (timeout < 0) {
-		res.status(HttpStatus.BAD_REQUEST).json({error: 'timeout must be > 0'});
-		return;
+		if (timeout < 0) {
+			res.status(HttpStatus.BAD_REQUEST).json({error: 'timeout must be > 0'});
+			return;
+		}
 	}
 
 	dbMessagesClient.insert({
